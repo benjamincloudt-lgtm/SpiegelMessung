@@ -5,32 +5,25 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Install Qt
         uses: jurplel/install-qt-action@v3
         with:
           version: '5.15.2'
           arch: 'win64_msvc2019_64'
-
       - name: Install OpenCV
         run: choco install opencv -y
-
       - name: Configure and Build
         run: |
-          mkdir build
+          if (!(Test-Path build)) { mkdir build }
           cd build
-          # Sucht OpenCV automatisch im tools Ordner
           cmake -DCMAKE_PREFIX_PATH="C:/Qt/5.15.2/msvc2019_64;C:/tools/opencv/build" ..
           cmake --build . --config Release
-
       - name: Package
         shell: bash
         run: |
           cd build/Release
           windeployqt SpiegelMessung.exe
-          # Findet die OpenCV DLLs egal wo sie liegen
           cp /c/tools/opencv/build/x64/vc16/bin/*.dll . || cp /c/tools/opencv/build/x64/vc15/bin/*.dll .
-
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
