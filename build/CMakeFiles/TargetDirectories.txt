@@ -1,0 +1,5 @@
+/Users/benjamincloudt/Desktop/SpiegelMessung/build/CMakeFiles/SpiegelMessung.dir
+/Users/benjamincloudt/Desktop/SpiegelMessung/build/CMakeFiles/edit_cache.dir
+/Users/benjamincloudt/Desktop/SpiegelMessung/build/CMakeFiles/rebuild_cache.dir
+/Users/benjamincloudt/Desktop/SpiegelMessung/build/CMakeFiles/SpiegelMessung_autogen_timestamp_deps.dir
+/Users/benjamincloudt/Desktop/SpiegelMessung/build/CMakeFiles/SpiegelMessung_autogen.dir
