@@ -4,24 +4,40 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+
       - name: Install Qt
         uses: jurplel/install-qt-action@v3
         with:
           version: '5.15.2'
+          host: 'windows'
+          target: 'desktop'
+          arch: 'win64_msvc2019_64'
+
       - name: Install OpenCV
-        run: choco install opencv -y
+        run: |
+          choco install opencv -y
+          echo "OpenCV_DIR=C:\tools\opencv\build" >> $GITHUB_ENV
+
+      - name: Configure CMake
+        run: |
+          mkdir build
+          cd build
+          cmake -DCMAKE_PREFIX_PATH="C:/Qt/5.15.2/msvc2019_64;C:/tools/opencv/build" ..
+
       - name: Build
         run: |
-          mkdir build; cd build
-          cmake -DCMAKE_PREFIX_PATH="C:/Qt/5.15.2/msvc2019_64;C:/tools/opencv/build" ..
+          cd build
           cmake --build . --config Release
+
       - name: Package
         run: |
           cd build/Release
           windeployqt SpiegelMessung.exe
           cp C:/tools/opencv/build/x64/vc16/bin/*.dll .
-      - uses: actions/upload-artifact@v3
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
         with:
           name: Windows-App
           path: build/Release/
