@@ -5,9 +5,15 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 
+# Pfade für Mac (lokal)
 if(APPLE)
     set(CMAKE_PREFIX_PATH "/opt/homebrew/opt/qt@5")
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-headerpad_max_install_names")
+endif()
+
+# Auf Windows (GitHub) versuchen wir den Pfad dynamisch zu finden
+if(WIN32)
+    # Wir geben CMake ein paar Tipps, wo OpenCV liegen könnte
+    set(OpenCV_DIR "C:/tools/opencv/build")
 endif()
 
 find_package(Qt5 COMPONENTS Widgets Gui Core REQUIRED)
